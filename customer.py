@@ -1,6 +1,13 @@
+# customer.py
+from order import Order  # import Order for relationships
+
 class Customer:
-    def _init_(self, name):
+    _all_customers = []  # class-level list to keep track of all customers if needed
+
+    def __init__(self, name):
         self.name = name
+        Customer._all_customers.append(self)
+
     @property
     def name(self):
         return self._name
@@ -11,28 +18,21 @@ class Customer:
             self._name = value
         else:
             raise ValueError("Customer name must be a string between 1 and 15 characters.")
-        from order import Order  # avoid circular import issues if needed
+    def orders(self):
+        # Returns list of orders made by this customer
+        return [order for order in Order.all_orders if order.customer == self]
 
-        def orders(self):
-            return [order for order in Order.all_orders if order.customer == self]
+    def coffees(self):
+        # Returns unique list of Coffee instances ordered by this customer
+        return list({order.coffee for order in self.orders()})
 
-        def coffees(self):
-            return list({order.coffee for order in self.orders()})
-    # customer.py
-
-        from order import Order  # add this if not already present
-
-        def create_order(self, coffee, price):
-          return Order(self, coffee, price)
-    # customer.py
-
-class Customer:
-    _all_customers = []
-
-    # existing init and methods...
+    def create_order(self, coffee, price):
+        # Creates an Order linked to this customer and given coffee
+        return Order(self, coffee, price)
 
     @classmethod
     def most_aficionado(cls, coffee):
+        # Returns the Customer who spent the most money on the given coffee
         customer_spending = {}
 
         for order in coffee.orders():
@@ -42,4 +42,5 @@ class Customer:
         if not customer_spending:
             return None
 
+        # Return the customer with max total spending
         return max(customer_spending, key=customer_spending.get)

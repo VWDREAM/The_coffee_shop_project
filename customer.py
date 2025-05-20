@@ -1,6 +1,3 @@
-# customer.py
-from order import Order  # import Order for relationships
-
 class Customer:
     _all_customers = []  # class-level list to keep track of all customers if needed
 
@@ -19,6 +16,7 @@ class Customer:
         else:
             raise ValueError("Customer name must be a string between 1 and 15 characters.")
     def orders(self):
+        from order import Order
         # Returns list of orders made by this customer
         return [order for order in Order.all_orders if order.customer == self]
 
@@ -27,6 +25,7 @@ class Customer:
         return list({order.coffee for order in self.orders()})
 
     def create_order(self, coffee, price):
+        from order import Order
         # Creates an Order linked to this customer and given coffee
         return Order(self, coffee, price)
 

@@ -1,8 +1,8 @@
 from order import Order
 
 class Coffee:
-    def _init_(self, name):
-        self.namev= name
+    def __init__(self, name):
+        self.name= name
     @property
     def name(self):
         return self._name

@@ -43,3 +43,5 @@ class Customer:
 
         # Return the customer with max total spending
         return max(customer_spending, key=customer_spending.get)
+        def _repr_(self):
+         return f"<Customer name={self.name}>"

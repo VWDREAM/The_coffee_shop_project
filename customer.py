@@ -1,5 +1,5 @@
 class Customer:
-    _all_customers = []  # class-level list to keep track of all customers if needed
+    _all_customers = []  # to keep track of all customers if needed
 
     def __init__(self, name):
         self.name = name
